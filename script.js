@@ -13,10 +13,11 @@ const stopBtn       = document.getElementById('stopBtn');
 
 const DAYS = ['日', '月', '火', '水', '木', '金', '土'];
 
-let alarms = loadAlarms();
-let ringingId = null;
-let audioCtx  = null;
-let gainNode  = null;
+let alarms      = loadAlarms();
+let ringingId   = null;
+let audioCtx    = null;
+let gainNode    = null;
+let beepTimerId = null;
 
 // ── Clock ──────────────────────────────────────────────
 function tick() {
@@ -139,14 +140,14 @@ function startBeep() {
 }
 
 function scheduleBeeps() {
-  if (!audioCtx || audioCtx.state === 'closed') return;
+  if (!audioCtx) return;
   beepTone(0,    0.15, 880);
   beepTone(0.2,  0.15, 880);
   beepTone(0.4,  0.15, 1100);
   beepTone(1.0,  0.15, 880);
   beepTone(1.2,  0.15, 880);
   beepTone(1.4,  0.15, 1100);
-  setTimeout(scheduleBeeps, 2400);
+  beepTimerId = setTimeout(scheduleBeeps, 2400);
 }
 
 function beepTone(delayS, durS, freq) {
@@ -167,6 +168,15 @@ function beepTone(delayS, durS, freq) {
 }
 
 function stopBeep() {
+  if (beepTimerId !== null) {
+    clearTimeout(beepTimerId);
+    beepTimerId = null;
+  }
+  if (gainNode) {
+    gainNode.gain.cancelScheduledValues(audioCtx.currentTime);
+    gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
+    gainNode = null;
+  }
   if (audioCtx) {
     audioCtx.close();
     audioCtx = null;
