@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Alarm Clock</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <div class="clock-section">
+      <div class="current-time" id="currentTime">00:00:00</div>
+      <div class="current-date" id="currentDate"></div>
+    </div>
+
+    <div class="alarm-section">
+      <h2 class="section-title">アラーム設定</h2>
+      <div class="alarm-input-row">
+        <input type="time" id="alarmTime" class="time-input" />
+        <input type="text" id="alarmLabel" class="label-input" placeholder="ラベル（任意）" />
+        <button class="btn btn-add" id="addBtn">追加</button>
+      </div>
+    </div>
+
+    <div class="alarm-list-section">
+      <h2 class="section-title">アラーム一覧</h2>
+      <ul class="alarm-list" id="alarmList">
+        <li class="empty-message">アラームはまだありません</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="overlay hidden" id="overlay">
+    <div class="ring-box">
+      <div class="ring-icon">⏰</div>
+      <div class="ring-time" id="ringTime"></div>
+      <div class="ring-label" id="ringLabel"></div>
+      <button class="btn btn-stop" id="stopBtn">止める</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
